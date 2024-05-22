@@ -6,16 +6,16 @@
 #    By: irsander <irsander@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/15 16:10:38 by irsander          #+#    #+#              #
-#    Updated: 2024/05/15 16:35:35 by irsander         ###   ########.fr        #
+#    Updated: 2024/05/22 16:35:15 by irsander         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME_CLIENT = client
 NAME_SERVER = server
 
-CC = CC
+CC = cc
 
-CFLAGS = -Wall -Wetra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 LIB_DIR = lib
 OBJ_DIR = src/obj
@@ -26,7 +26,8 @@ INCL = -I ./incl -I $(LIB_DIR)/libft -I $(LIB_DIR)/ft_printf
 FILES_CLIENT = client.c
 FILES_SERVER = server.c
 
-SRC = $(addprefix $(SRC_DIR)/, $(FILES))
+SRC = $(addprefix $(SRC_DIR)/, $(FILES_CLIENT))
+SRC = $(addprefix $(SRC_DIR)/, $(FILES_SERVER))
 OBJ_CLIENT = $(addprefix $(OBJ_DIR)/, $(FILES_CLIENT:.c=.o))
 OBJ_SERVER = $(addprefix $(OBJ_DIR)/, $(FILES_SERVER:.c=.o))
 
@@ -36,13 +37,13 @@ PRINTF = $(LIB_DIR)/ft_printf/libftprintf.a
 all: $(NAME_CLIENT) $(NAME_SERVER)
 
 $(NAME_CLIENT): $(OBJ_CLIENT)
-	$(MAKE) -C ./libft
-	$(MAKE) -C ./libft/ft_printf
+	$(MAKE) -C $(LIB_DIR)/libft
+	$(MAKE) -C $(LIB_DIR)/ft_printf
 	$(CC) $(CFLAGS) $(OBJ_CLIENT) $(INCL) $(LIBFT) $(PRINTF) -o $(NAME_CLIENT)
 
 $(NAME_SERVER): $(OBJ_SERVER)
-	$(MAKE) -C ./libft
-	$(MAKE) -C ./libft/ft_printf
+	$(MAKE) -C $(LIB_DIR)/libft
+	$(MAKE) -C $(LIB_DIR)/ft_printf
 	$(CC) $(CFLAGS) $(OBJ_SERVER) $(INCL) $(LIBFT) $(PRINTF) -o $(NAME_SERVER)
 
 $(OBJ_DIR):
@@ -57,7 +58,7 @@ clean:
 	$(MAKE) clean -C $(LIB_DIR)/libft
 
 fclean:
-	rm -f $(OBJ_CLIENT) $(OBJ_SERVER)
+	rm -f $(NAME_CLIENT) $(NAME_SERVER)
 	$(MAKE) fclean -C $(LIB_DIR)/ft_printf
 	$(MAKE) fclean -C $(LIB_DIR)/libft
 
