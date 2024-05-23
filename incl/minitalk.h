@@ -6,7 +6,7 @@
 /*   By: irsander <irsander@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:32:39 by irsander          #+#    #+#             */
-/*   Updated: 2024/05/23 13:34:01 by irsander         ###   ########.fr       */
+/*   Updated: 2024/05/23 17:36:19 by irsander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,24 @@
 # include <signal.h>
 # include <unistd.h>
 # include <sys/types.h>
+#include <stdbool.h>
 
+/**
+ * @brief Struct for a small vector
+ * 
+ * @param data The actual string
+ * @param length The total amount of chars inserted
+ * @param alloc_size The total amount of memory that can be filled. 
+ */
+typedef struct s_vec {
+    char *data;
+    int length;
+    int alloc_size;
+} t_vec;
+
+bool vec_resize(t_vec *vec);
+bool vec_push(t_vec *vec, char c);
+char *return_string(t_vec *vec);
+void vec_init(t_vec *vec, int size);
+void    print_vec(t_vec *vec);
 #endif

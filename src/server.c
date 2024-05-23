@@ -6,48 +6,58 @@
 /*   By: irsander <irsander@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:35:50 by irsander          #+#    #+#             */
-/*   Updated: 2024/05/23 14:30:37 by irsander         ###   ########.fr       */
+/*   Updated: 2024/05/23 18:21:49 by irsander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "../incl/minitalk.h"
 
-static void	sig_handler(int signal)
+t_vec	str;
+
+static void	sig_handler(int sig, siginfo_t *info, void *ucontext)
 {
-	static char	bits = 0;
+	(void)ucontext;
+	static char	c = 0;
 	static int	received_signals = 0;
 
-	if (signal == SIGUSR1)
+	if (sig == SIGUSR1)
 		received_signals++;
-	if (signal == SIGUSR2)
+	if (sig == SIGUSR2)
 	{
-		bits = bits | (1 << received_signals);
+		c = c | (1 << received_signals);
 		received_signals++;
 	}
 	if (received_signals == 8)
 	{
-		write (1, &bits, 1);
+		vec_push(&str, c);
+		if (c == '\0')
+		{
+			write(1, str.data, str.length);
+			str.length = 0;
+		}
+		if (kill(info->si_pid, SIGUSR1) == -1)
+			exit(1);
 		received_signals = 0;
-		bits = 0;
+		c = 0;
 	}
 }
 
 int	main(void)
 {
 	pid_t				pid;
-	struct sigaction	sig;
-	char *received_string;
+	struct sigaction	sa;
 
-	received_string = NULL;
-	sig.sa_handler = sig_handler;
-	sig.sa_flags = SA_RESTART;
+	vec_init(&str, 10);
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = sig_handler;
 	pid = getpid();
 	ft_printf("pid = %i\n", pid);
-	if (sigaction(SIGUSR1, &sig, 0) == -1)
+	if (sigaction(SIGUSR1, &sa, 0) == -1)
 		return (1);
-	if (sigaction(SIGUSR2, &sig, 0) == -1)
+	if (sigaction(SIGUSR2, &sa, 0) == -1)
 		return (1);
 	while (1)
 		pause();
+	free(str.data);
 	return (0);
 }

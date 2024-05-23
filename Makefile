@@ -6,7 +6,7 @@
 #    By: irsander <irsander@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/15 16:10:38 by irsander          #+#    #+#              #
-#    Updated: 2024/05/22 16:35:15 by irsander         ###   ########.fr        #
+#    Updated: 2024/05/23 17:45:45 by irsander         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,9 @@ SRC_DIR = src
 
 INCL = -I ./incl -I $(LIB_DIR)/libft -I $(LIB_DIR)/ft_printf
 
-FILES_CLIENT = client.c
-FILES_SERVER = server.c
+FILES_CLIENT =	client.c
+FILES_SERVER =	server.c \
+				vec.c \
 
 SRC = $(addprefix $(SRC_DIR)/, $(FILES_CLIENT))
 SRC = $(addprefix $(SRC_DIR)/, $(FILES_SERVER))
