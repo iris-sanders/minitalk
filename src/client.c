@@ -6,7 +6,7 @@
 /*   By: irsander <irsander@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:35:48 by irsander          #+#    #+#             */
-/*   Updated: 2024/05/23 13:26:02 by irsander         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:56:37 by irsander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	send_signal(int server_pid, char c)
 {
 	static int	bits = 0;
 	int			error;
-	
+
 	error = 0;
 	while (bits < 8)
 	{
@@ -29,11 +29,12 @@ static void	send_signal(int server_pid, char c)
 			ft_printf("Error: failed to send signal\n");
 			exit(EXIT_FAILURE);
 		}
-		usleep(80);
-		bits++;	
+		usleep(10000);
+		bits++;
 	}
 	bits = 0;
 }
+
 int	main(int argc, char **argv)
 {
 	int	server_pid;

@@ -6,7 +6,7 @@
 /*   By: irsander <irsander@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:32:39 by irsander          #+#    #+#             */
-/*   Updated: 2024/05/23 12:32:00 by irsander         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:34:01 by irsander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "libft.h"
 # include "ft_printf.h"
-#include <signal.h>
+# include <signal.h>
 # include <unistd.h>
 # include <sys/types.h>
 
