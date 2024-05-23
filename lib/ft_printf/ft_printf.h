@@ -6,7 +6,7 @@
 /*   By: irsander <irsander@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 23:07:06 by irsander          #+#    #+#             */
-/*   Updated: 2023/11/23 02:00:26 by irsander         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:21:35 by irsander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,5 @@ int		ft_putchar(char c);
 int		ft_putstr(char *s);
 int		ft_putnbr(long num, int base, int u_nbr, int upcase);
 int		ft_putptr(void *p);
-
 
 #endif

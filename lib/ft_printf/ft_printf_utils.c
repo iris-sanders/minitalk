@@ -6,7 +6,7 @@
 /*   By: irsander <irsander@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 23:06:58 by irsander          #+#    #+#             */
-/*   Updated: 2024/01/14 13:08:41 by irsander         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:21:59 by irsander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_putstr(char *s)
 	return (i);
 }
 
-int ft_putptr(void *p)
+int	ft_putptr(void *p)
 {
 	int				length;
 	unsigned long	num;
@@ -52,8 +52,7 @@ int ft_putptr(void *p)
 	else
 		length += ft_putchar(num + ('a' - 10));
 	return (length);
-}	
-
+}
 
 int	ft_putnbr(long num, int base, int u_nbr, int upcase)
 {
