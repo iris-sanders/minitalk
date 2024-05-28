@@ -6,14 +6,14 @@
 #    By: irsander <irsander@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/15 16:10:38 by irsander          #+#    #+#              #
-#    Updated: 2024/05/23 17:45:45 by irsander         ###   ########.fr        #
+#    Updated: 2024/05/28 14:09:02 by irsander         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME_CLIENT = client
 NAME_SERVER = server
 
-CC = cc
+CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
@@ -55,10 +55,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 
 clean:
 	rm -rf $(OBJ_CLIENT) $(OBJ_SERVER)
+	rm -rf $(OBJ_DIR)
 	$(MAKE) clean -C $(LIB_DIR)/ft_printf
 	$(MAKE) clean -C $(LIB_DIR)/libft
 
-fclean:
+fclean: clean
 	rm -f $(NAME_CLIENT) $(NAME_SERVER)
 	$(MAKE) fclean -C $(LIB_DIR)/ft_printf
 	$(MAKE) fclean -C $(LIB_DIR)/libft

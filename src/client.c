@@ -6,7 +6,7 @@
 /*   By: irsander <irsander@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:35:48 by irsander          #+#    #+#             */
-/*   Updated: 2024/05/23 18:26:35 by irsander         ###   ########.fr       */
+/*   Updated: 2024/05/28 13:54:53 by irsander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	send_signal(int server_pid, char c)
 	int			error;
 
 	error = 0;
+	printf("%c", c);
 	while (bits < 8)
 	{
 		if (c & (1 << bits))
@@ -31,15 +32,21 @@ static void	send_signal(int server_pid, char c)
 			ft_printf("Error: failed to send signal\n");
 			exit(EXIT_FAILURE);
 		}
-		usleep(100);
+		// usleep(10);
+		while (!received)
+			;
+		received = false;
+		usleep(10);
 		bits++;
 	}
 	bits = 0;
 }
 
 static void	sig_handler(int signal) {
-	if (signal == SIGUSR1)
+	if (signal == SIGUSR1) {
+		printf("	resp\n");
 		received = true;
+	}
 }
 
 int	main(int argc, char **argv)
@@ -63,16 +70,14 @@ int	main(int argc, char **argv)
 		ft_printf("Error: invalid pid");
 		return (1);
 	}
-	while (argv[2][i] != '\0')
+	while (argv[2][i])
 	{
 		received = false;
 		send_signal(server_pid, argv[2][i]);
-		while (!received);
-		printf("\nJust sent: %c\n", argv[2][i]);
+		// printf("\nJust sent: %c\n", argv[2][i]);
 		i++;
 	}
 	received = false;
 	send_signal(server_pid, '\0');
-	while (!received) ;
 	return (0);
 }
