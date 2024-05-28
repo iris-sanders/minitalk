@@ -6,7 +6,7 @@
 /*   By: irsander <irsander@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:35:48 by irsander          #+#    #+#             */
-/*   Updated: 2024/05/28 13:54:53 by irsander         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:52:02 by irsander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,20 @@
 
 bool received;
 
+void	ft_error(char *msg)
+{
+	ft_putstr_fd("Error: ", STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	exit(EXIT_FAILURE);
+}
+
 static void	send_signal(int server_pid, char c)
 {
 	static int	bits = 0;
 	int			error;
 
 	error = 0;
-	printf("%c", c);
 	while (bits < 8)
 	{
 		if (c & (1 << bits))
@@ -28,11 +35,7 @@ static void	send_signal(int server_pid, char c)
 		else
 			error = kill(server_pid, SIGUSR1);
 		if (error != 0)
-		{
-			ft_printf("Error: failed to send signal\n");
-			exit(EXIT_FAILURE);
-		}
-		// usleep(10);
+			ft_error("failed to send signal");
 		while (!received)
 			;
 		received = false;
@@ -44,7 +47,6 @@ static void	send_signal(int server_pid, char c)
 
 static void	sig_handler(int signal) {
 	if (signal == SIGUSR1) {
-		printf("	resp\n");
 		received = true;
 	}
 }
@@ -60,21 +62,14 @@ int	main(int argc, char **argv)
 	sig.sa_flags = 0;
 	sigaction(SIGUSR1, &sig, NULL);
 	if (argc < 3)
-	{
-		ft_printf("Error: invalid arguments");
-		return (1);
-	}
+		ft_error("invalid arguments");
 	server_pid = ft_atoi(argv[1]);
 	if (server_pid <= 0)
-	{
-		ft_printf("Error: invalid pid");
-		return (1);
-	}
+		ft_error("invalid pid");
 	while (argv[2][i])
 	{
 		received = false;
 		send_signal(server_pid, argv[2][i]);
-		// printf("\nJust sent: %c\n", argv[2][i]);
 		i++;
 	}
 	received = false;

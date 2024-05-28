@@ -6,7 +6,7 @@
 /*   By: irsander <irsander@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:32:39 by irsander          #+#    #+#             */
-/*   Updated: 2024/05/23 17:36:19 by irsander         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:12:56 by irsander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct s_vec {
 
 bool vec_resize(t_vec *vec);
 bool vec_push(t_vec *vec, char c);
-char *return_string(t_vec *vec);
 void vec_init(t_vec *vec, int size);
-void    print_vec(t_vec *vec);
+
 #endif

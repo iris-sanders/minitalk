@@ -6,7 +6,7 @@
 #    By: irsander <irsander@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/21 23:08:05 by irsander          #+#    #+#              #
-#    Updated: 2023/11/22 21:23:58 by irsander         ###   ########.fr        #
+#    Updated: 2024/05/28 15:22:58 by irsander         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,16 +24,16 @@ OFILES		= $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OFILES) $(HEADER)
-	ar rcs $(NAME) $?
+	@ar rcs $(NAME) $?
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $^
+	@$(CC) $(CFLAGS) -c -o $@ $^
 
 clean:
-	rm -rf $(OFILES)
+	@rm -rf $(OFILES)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 /*   By: irsander <irsander@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 16:14:36 by irsander          #+#    #+#             */
-/*   Updated: 2024/05/28 13:22:45 by irsander         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:12:43 by irsander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 bool vec_resize(t_vec *vec) {
     char *tmp;
 
-    // printf("RESIZING!\n");
     tmp = malloc(sizeof(char) * (vec->alloc_size * 2));
     if (!tmp)
         return (false);
@@ -33,24 +32,6 @@ bool vec_push(t_vec *vec, char c) {
     vec->length++;
     return (true);
 }
-
-void    print_vec(t_vec *vec)
-{
-    write(1, vec->data, vec->length);
-}
-
-// char *return_string(t_vec *vec) {
-//     char *tmp;
-
-//     vec_push(vec, '\0');
-//     tmp = malloc(sizeof(char) * vec->length);
-//     if (!tmp)
-//         return (NULL);
-//     memcpy(tmp, vec->data, vec->length);
-//     print_vec(vec);
-//     free(vec->data);
-//     return (tmp);
-// }
 
 void vec_init(t_vec *vec, int size) {
     vec->data = malloc(sizeof(char) * size);

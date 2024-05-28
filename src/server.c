@@ -6,7 +6,7 @@
 /*   By: irsander <irsander@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:35:50 by irsander          #+#    #+#             */
-/*   Updated: 2024/05/28 13:32:32 by irsander         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:11:08 by irsander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,29 @@
 
 t_vec	str;
 
+void	ft_error(char *msg)
+{
+	ft_putstr_fd("Error: ", STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	exit(EXIT_FAILURE);
+}
+
+void	write_and_free(void)
+{
+	write(1, str.data, str.length);
+	free(str.data);
+	str = (t_vec){0};
+}
+
 static void	sig_handler(int sig, siginfo_t *info, void *ucontext)
 {
 	(void)ucontext;
 	static char	c = 0;
 	static int	received_signals = 0;
+	
 	if (str.alloc_size == 0)
 		vec_init(&str, 10);
-
 	if (sig == SIGUSR1)
 		received_signals++;
 	if (sig == SIGUSR2)
@@ -31,21 +46,14 @@ static void	sig_handler(int sig, siginfo_t *info, void *ucontext)
 	}
 	if (received_signals == 8)
 	{
-		write(1, &c, 1);
 		vec_push(&str, c);
 		if (c == '\0')
-		{
-			write(1, str.data, str.length);
-			free(str.data);
-			str = (t_vec){0};
-		}
+			write_and_free();
 		received_signals = 0;
 		c = 0;
 	}
-	if (kill(info->si_pid, SIGUSR1) == -1) {
-		ft_printf("failed response");
-		exit(1);
-	}
+	if (kill(info->si_pid, SIGUSR1) == -1)
+		ft_error("failed response");
 }
 
 int	main(void)
@@ -53,7 +61,6 @@ int	main(void)
 	pid_t				pid;
 	struct sigaction	sa;
 	
-
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = sig_handler;
 	pid = getpid();
