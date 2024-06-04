@@ -6,13 +6,13 @@
 /*   By: irsander <irsander@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:35:48 by irsander          #+#    #+#             */
-/*   Updated: 2024/05/28 14:52:02 by irsander         ###   ########.fr       */
+/*   Updated: 2024/06/04 12:14:36 by irsander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include <minitalk.h>
 
-bool received;
+bool	g_received;
 
 void	ft_error(char *msg)
 {
@@ -36,26 +36,26 @@ static void	send_signal(int server_pid, char c)
 			error = kill(server_pid, SIGUSR1);
 		if (error != 0)
 			ft_error("failed to send signal");
-		while (!received)
+		while (!g_received)
 			;
-		received = false;
+		g_received = false;
 		usleep(10);
 		bits++;
 	}
 	bits = 0;
 }
 
-static void	sig_handler(int signal) {
-	if (signal == SIGUSR1) {
-		received = true;
-	}
+static void	sig_handler(int signal)
+{
+	if (signal == SIGUSR1)
+		g_received = true;
 }
 
 int	main(int argc, char **argv)
 {
 	int					server_pid;
 	int					i;
-	struct	sigaction	sig;
+	struct sigaction	sig;
 
 	i = 0;
 	sig.sa_handler = sig_handler;
@@ -68,11 +68,11 @@ int	main(int argc, char **argv)
 		ft_error("invalid pid");
 	while (argv[2][i])
 	{
-		received = false;
+		g_received = false;
 		send_signal(server_pid, argv[2][i]);
 		i++;
 	}
-	received = false;
+	g_received = false;
 	send_signal(server_pid, '\0');
 	return (0);
 }
